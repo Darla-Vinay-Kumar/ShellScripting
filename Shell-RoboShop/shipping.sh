@@ -63,15 +63,16 @@ dnf install mysql -y &>> $LogFile
 Validate $? "installing mysql client"
 mysql -h mysql.darlavinaykumar.fun -uroot -pRoboShop@1 -e 'use cities' &>> $LogFile
 Validate $? "loading shipping schema to MYSQL"
-if [ $? -eq 0 ]; then
-    echo -e "${Y}Shipping schema already exists in MYSQL. Skipping schema load.${N}" | tee -a $LogFile
-else
+if [ $? -ne 0 ]; then
     mysql -h mysql.darlavinaykumar.fun -uroot -pRoboShop@1 < /app/db/schema.sql &>> $LogFile
     Validate $? "loading shipping schema to MYSQL"
     mysql -h mysql.darlavinaykumar.fun -uroot -pRoboShop@1 < /app/db/app-user.sql &>> $LogFile
     Validate $? "loading app user schema to MYSQL"
     mysql -h mysql.darlavinaykumar.fun -uroot -pRoboShop@1 < /app/db/master-data.sql &>> $LogFile
-    Validate $? "loading master data to MYSQL"  
+    Validate $? "loading master data to MYSQL" 
+else
+    echo -e "${Y}Shipping schema already exists in MYSQL. Skipping schema load.${N}" | tee -a $LogFile
+  
 fi
 systemctl restart shipping &>> $LogFile
 Validate $? "restarting shipping service"
