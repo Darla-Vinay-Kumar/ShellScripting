@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH=/usr/local/bin:$PATH
 AMI_ID="ami-0220d79f3f480ecf5"
 SG_ID="sg-06298c18e86c57b2e"
 ZoneId="Z018042118DWYK39M0YVT"
