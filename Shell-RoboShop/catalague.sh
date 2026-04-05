@@ -82,12 +82,12 @@ Validate $? "installing MONGODB"
 
 
 # Check if the 'products' collection exists before loading schema
-COLLECTION_EXISTS=$(mongosh --host $MongoDb_Host --quiet --eval "db = db.getSiblingDB('catalogue'); db.getCollectionNames().indexOf('products')")
-if [ "$COLLECTION_EXISTS" -ge 0 ]; then
-    echo -e "${Y}MongoDB collection 'products' already exists. Skipping schema load.${N}" | tee -a $LogFile
+INDEX=$(mongosh mongodb.daws86s.fun --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
+if [ $INDEX -le 0 ]; then
+    mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
+    VALIDATE $? "Load catalogue products"
 else
-    mongosh --host $MongoDb_Host </app/db/master-data.js &>> $LogFile
-    Validate $? "loading catalogue schema to MONGODB"
+    echo -e "Catalogue products already loaded ... $Y SKIPPING $N"
 fi
 
 systemctl restart catalogue &>> $LogFile
