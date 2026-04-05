@@ -62,8 +62,9 @@ systemctl enable shipping &>> $LogFile
 Validate $? "enabling shipping service"
 dnf install mysql -y &>> $LogFile
 Validate $? "installing mysql client"
+
 mysql -h $MYSQL_HOST -uroot -pRoboShop@1 -e 'use cities' &>> $LogFile
-Validate $? "loading shipping schema to MYSQL"
+
 if [ $? -ne 0 ]; then
     mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>> $LogFile
     Validate $? "loading shipping schema to MYSQL"
