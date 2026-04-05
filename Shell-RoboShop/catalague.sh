@@ -7,7 +7,7 @@ Y="\e[33m" #Yellow Color
 N="\e[0m" #Normal Color
 Logs_Folder="/var/log/ShellS-Roboshop"
 Script_Dir=$(pwd)
-MongoDb_Host="mongodb.darla.vinaykumar.fun"
+MongoDb_Host="mongodb.darlavinaykumar.fun"
 ScriptName=$( echo $0 | cut -d "." -f1 )
 LogFile="$Logs_Folder/$ScriptName-$(date +%F-%H-%M-%S).log"
 
