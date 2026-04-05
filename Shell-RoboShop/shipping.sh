@@ -10,6 +10,7 @@ Script_Dir=$(pwd)
 MongoDb_Host="mongodb.darla.vinaykumar.fun"
 ScriptName=$( echo $0 | cut -d "." -f1 )
 LogFile="$Logs_Folder/$ScriptName-$(date +%F-%H-%M-%S).log"
+MYSQL_HOST=mysql.darlavinaykumar.fun
 
 mkdir -p $Logs_Folder
 echo "script started at $(date)" | tee -a $LogFile
@@ -61,14 +62,14 @@ systemctl enable shipping &>> $LogFile
 Validate $? "enabling shipping service"
 dnf install mysql -y &>> $LogFile
 Validate $? "installing mysql client"
-mysql -h mysql.darlavinaykumar.fun -uroot -pRoboShop@1 -e 'use cities' &>> $LogFile
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 -e 'use cities' &>> $LogFile
 Validate $? "loading shipping schema to MYSQL"
 if [ $? -ne 0 ]; then
-    mysql -h mysql.darlavinaykumar.fun -uroot -pRoboShop@1 < /app/db/schema.sql &>> $LogFile
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>> $LogFile
     Validate $? "loading shipping schema to MYSQL"
-    mysql -h mysql.darlavinaykumar.fun -uroot -pRoboShop@1 < /app/db/app-user.sql &>> $LogFile
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql &>> $LogFile
     Validate $? "loading app user schema to MYSQL"
-    mysql -h mysql.darlavinaykumar.fun -uroot -pRoboShop@1 < /app/db/master-data.sql &>> $LogFile
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>> $LogFile
     Validate $? "loading master data to MYSQL" 
 else
     echo -e "${Y}Shipping schema already exists in MYSQL. Skipping schema load.${N}" | tee -a $LogFile
