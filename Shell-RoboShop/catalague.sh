@@ -81,8 +81,8 @@ Validate $? "installing MONGODB"
 
 
 # Check if the collection exists before loading schema
-COLLECTION_EXISTS=$(mongosh --host $MongoDb_Host --quiet --eval "db.getMongo().getDBName().indexOf('catalogue') >= 0")
-if [ "$COLLECTION_EXISTS" = "true" ]; then
+COLLECTION_EXISTS=$(mongosh mongodb.darlavinaykumar.fun --quiet --eval "db.getMongo().getDBName().indexOf('catalogue')")
+if [ $COLLECTION_EXISTS -gt 0 ]; then
     echo -e "${Y}MongoDB collection 'products' already exists. Skipping schema load.${N}" | tee -a $LogFile
 else
     mongosh --host $MongoDb_Host </app/db/master-data.js &>> $LogFile
