@@ -84,7 +84,7 @@ Validate $? "installing MONGODB"
 # Check if the 'products' collection exists before loading schema
 INDEX=$(mongosh mongodb.darlavinaykumar.fun --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
 if [ $INDEX -le 0 ]; then
-    mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
+    mongosh --host $MONGODB_HOST </app/db/master-data.js &>> $LogFile
     Validate $? "Load catalogue products"
 else
     echo -e "Catalogue products already loaded ... $Y SKIPPING $N"
