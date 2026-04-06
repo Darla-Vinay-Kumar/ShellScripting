@@ -7,7 +7,7 @@ Y="\e[33m" #Yellow Color
 N="\e[0m" #Normal Color
 Logs_Folder="/var/log/ShellS-Roboshop"
 Script_Dir=$(pwd)
-MongoDb_Host="mongodb.darlavinaykumar.fun"
+MONGODB_HOST="mongodb.darlavinaykumar.fun"
 ScriptName=$( echo $0 | cut -d "." -f1 )
 LogFile="$Logs_Folder/$ScriptName-$(date +%F-%H-%M-%S).log"
 
@@ -85,7 +85,7 @@ Validate $? "installing MONGODB"
 INDEX=$(mongosh mongodb.darlavinaykumar.fun --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
 if [ $INDEX -le 0 ]; then
     mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
-    VALIDATE $? "Load catalogue products"
+    Validate $? "Load catalogue products"
 else
     echo -e "Catalogue products already loaded ... $Y SKIPPING $N"
 fi
